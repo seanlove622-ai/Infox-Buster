@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infox Buster - Esprit Critique, Fact-Checking & Pop Zététique</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        popYellow: '#FFD700',
+                        popPurple: '#6C5CE7',
+                        popPink: '#FF7675',
+                        popCyan: '#00CEC9',
+                        popOrange: '#FF9F43',
+                        popDark: '#121218',
+                        popCard: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        display: ['Fredoka', 'cursive', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'pop': '4px 4px 0px 0px #121218',
+                        'pop-lg': '8px 8px 0px 0px #121218',
+                        'pop-purple': '5px 5px 0px 0px #6C5CE7',
+                        'pop-pink': '5px 5px 0px 0px #FF7675',
+                        'pop-cyan': '5px 5px 0px 0px #00CEC9',
+                        'pop-yellow': '5px 5px 0px 0px #FFD700',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF8F5;
+            background-image: radial-gradient(#121218 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+        }
+
+        .font-display {
+            font-family: 'Fredoka', cursive;
+        }
+
+        /* 3D Flip Card Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Pop Neo-brutalism Utilities */
+        .pop-border {
+            border: 3px solid #121218;
+        }
+
+        .pop-btn {
+            border: 3px solid #121218;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pop-btn:hover {
+            transform: translate(-3px, -3px);
+        }
+
+        .pop-btn:active {
+            transform: translate(0px, 0px);
+            box-shadow: none !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+            border-left: 3px solid #121218;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6C5CE7;
+            border: 2px solid #121218;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen text-slate-900 antialiased selection:bg-popYellow selection:text-black">
+
+    <header class="sticky top-0 z-50 bg-white pop-border border-t-0 border-x-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer select-none" onclick="switchTab('accueil')">
+                    <div class="w-12 h-12 bg-popYellow pop-border rounded-xl flex items-center justify-center font-display text-2xl font-bold shadow-pop rotate-[-3deg] hover:rotate-0 transition-transform">
+                        💡
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-2xl tracking-wide uppercase text-popDark">INFOX<span class="text-popPink">BUSTER</span></span>
+                        <span class="block text-[10px] font-bold text-popPurple tracking-widest uppercase">Esprit Critique & Auto-défense</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Buttons -->
+                <nav class="hidden lg:flex items-center gap-2">
+                    <button onclick="switchTab('accueil')" id="nav-accueil" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-popYellow shadow-pop text-sm">
+                        Accueil
+                    </button>
+                    <button onclick="switchTab('guide')" id="nav-guide" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-white hover:bg-popCyan shadow-pop text-sm">
+                        Esprit Critique
+                    </button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-popPink text-white hover:bg-pink-600 shadow-pop text-sm">
+                        🎯 Quiz Infox
+                    </button>
+                    <button onclick="switchTab('acteurs')" id="nav-acteurs" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-white hover:bg-popPurple hover:text-white shadow-pop text-sm">
+                        🌟 Inspirations
+                    </button>
+                    <button onclick="switchTab('ressources')" id="nav-ressources" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-white hover:bg-popOrange hover:text-white shadow-pop text-sm">
+                        📚 Ressources
+                    </button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3.5 py-2 font-display font-semibold rounded-lg pop-btn bg-white hover:bg-emerald-300 shadow-pop text-sm">
+                        Qui sommes-nous ?
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Toggle Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 pop-btn rounded-xl bg-popYellow shadow-pop text-popDark">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white pop-border border-x-0 border-b-2 p-4 space-y-3">
+            <button onclick="switchTab('accueil')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-popYellow">🏠 Accueil</button>
+            <button onclick="switchTab('guide')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-popCyan">🧠 Esprit Critique & Biais</button>
+            <button onclick="switchTab('quiz')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-popPink text-white">🎯 Le Quiz des Infox</button>
+            <button onclick="switchTab('acteurs')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-popPurple text-white">🌟 Inspirations & Acteurs</button>
+            <button onclick="switchTab('ressources')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-popOrange text-white">📚 Annuaire Ressources</button>
+            <button onclick="switchTab('about')" class="w-full text-left font-display font-bold p-3 rounded-lg pop-btn bg-emerald-300">👥 Qui sommes-nous & Contact</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= SECTION 1: ACCUEIL ================= -->
+        <section id="tab-accueil" class="tab-content space-y-12">
+            
+            <!-- Hero Banner -->
+            <div class="relative bg-popPurple text-white rounded-3xl pop-border p-8 md:p-14 shadow-pop-lg overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-15 text-9xl font-display select-none">
+                    🧐
+                </div>
+                <div class="max-w-3xl space-y-6 relative z-10">
+                    <span class="inline-block bg-popYellow text-popDark font-display font-bold px-4 py-1.5 rounded-full pop-border shadow-pop uppercase text-xs sm:text-sm tracking-wider">
+                        ⚡ Ne subissez plus l'information, décodez-la !
+                    </span>
+                    <h1 class="font-display text-4xl sm:text-6xl font-extrabold leading-none text-white">
+                        Musclez votre<br><span class="text-popYellow underline decoration-wavy decoration-popPink">Esprit Critique</span> !
+                    </h1>
+                    <p class="text-lg sm:text-xl font-medium text-slate-100 leading-relaxed">
+                        Des biais cognitifs aux pièges des réseaux sociaux, apprenez à repérer le faux, questionner vos certitudes et vérifier les faits grâce aux meilleures ressources de vulgarisation scientifique et citoyenne.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="switchTab('quiz')" class="pop-btn bg-popPink text-white font-display font-bold text-lg px-6 py-3.5 rounded-2xl shadow-pop hover:bg-pink-600 flex items-center gap-2">
+                            <span>Tester mes réflexes (Quiz)</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('acteurs')" class="pop-btn bg-popCyan text-popDark font-display font-bold text-lg px-6 py-3.5 rounded-2xl shadow-pop hover:bg-cyan-300">
+                            Découvrir les Acteurs ⚖️
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RUBRIQUE LIVE: À LA UNE - LES SURLIGNEURS -->
+            <div class="bg-white rounded-3xl pop-border shadow-pop p-6 md:p-8 space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b-2 border-slate-900 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-4 h-4 rounded-full bg-red-500 animate-pulse inline-block pop-border"></span>
+                        <h2 class="font-display text-xl sm:text-2xl font-bold text-popDark">À la une — Le Décryptage des Surligneurs</h2>
+                    </div>
+                    <span class="bg-popYellow text-popDark font-display font-bold text-xs px-3 py-1 rounded-full pop-border uppercase tracking-wide">
+                        Flux direct en temps réel ⚡
+                    </span>
+                </div>
+
+                <!-- Conteneur injecté dynamiquement -->
+                <div id="surligneurs-live-feed" class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <div class="col-span-full py-8 text-center text-slate-500 font-display font-semibold">
+                        <i class="fa-solid fa-spinner fa-spin mr-2 text-popPurple"></i> Récupération des dernières analyses juridiques en direct...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-popYellow p-6 rounded-2xl pop-border shadow-pop space-y-3 hover:-translate-y-1 transition-transform">
+                    <div class="w-12 h-12 bg-white rounded-xl pop-border flex items-center justify-center text-2xl font-bold shadow-pop">
+                        🕵️‍♂️
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-popDark">Analyse des Infox</h3>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Comprenez la mécanique de fabrication des rumeurs, des images hors contexte et des pièges de l'I.A.
+                    </p>
+                </div>
+
+                <div class="bg-popCyan p-6 rounded-2xl pop-border shadow-pop space-y-3 hover:-translate-y-1 transition-transform">
+                    <div class="w-12 h-12 bg-white rounded-xl pop-border flex items-center justify-center text-2xl font-bold shadow-pop">
+                        🧠
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-popDark">Comprendre les Biais</h3>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Notre cerveau va vite. Découvrez comment le biais de confirmation, l'effet de halo et d'ancrage nous trompent.
+                    </p>
+                </div>
+
+                <div class="bg-popPink text-white p-6 rounded-2xl pop-border shadow-pop space-y-3 hover:-translate-y-1 transition-transform">
+                    <div class="w-12 h-12 bg-white text-popDark rounded-xl pop-border flex items-center justify-center text-2xl font-bold shadow-pop">
+                        📚
+                    </div>
+                    <h3 class="font-display font-bold text-xl">Acteurs & Médiathèques</h3>
+                    <p class="text-sm font-semibold text-slate-100">
+                        De CheckNews aux Médiathèques de Créteil, Albert Moukheiber et HugoDécrypte, suivez les figures de l'auto-défense intellectuelle.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interactive Teaser Box -->
+            <div class="bg-white p-8 rounded-3xl pop-border shadow-pop flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <span class="text-xs font-bold font-display uppercase tracking-wider text-popPurple bg-purple-100 px-3 py-1 rounded-full pop-border">
+                        Challenge Flash
+                    </span>
+                    <h2 class="font-display text-2xl md:text-3xl font-bold text-popDark">Pensez-vous être à l'abri de la désinformation ?</h2>
+                    <p class="text-slate-600 text-sm md:text-base max-w-xl">
+                        Avoir un bon esprit critique, c'est savoir douter même de ce qui nous fait plaisir ! Évaluez vos compétences avec notre test en 6 questions.
+                    </p>
+                </div>
+                <button onclick="switchTab('quiz')" class="pop-btn bg-popYellow font-display font-bold text-popDark px-8 py-4 rounded-2xl shadow-pop text-lg hover:bg-yellow-300 whitespace-nowrap">
+                    Lancer le Quiz 🎯
+                </button>
+            </div>
+
+            <!-- Preview Featured Inspirations -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-popDark">
+                        🌟 Acteurs & Inspirations à la une
+                    </h2>
+                    <button onclick="switchTab('acteurs')" class="text-sm font-bold font-display text-popPurple hover:underline flex items-center gap-1">
+                        Voir tout l'annuaire <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="home-featured-acteurs">
+                    <!-- Dynamic Preview Render -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= SECTION 2: ESPRIT CRITIQUE ================= -->
+        <section id="tab-guide" class="tab-content hidden space-y-10">
+            <div class="bg-popCyan p-8 rounded-3xl pop-border shadow-pop">
+                <span class="bg-white px-3 py-1 rounded-full font-display font-bold text-xs pop-border uppercase tracking-wide">
+                    Module Pédagogique
+                </span>
+                <h1 class="font-display text-3xl sm:text-5xl font-bold text-popDark mt-3">
+                    🧠 Biais Cognitifs & Pièges Mentaux
+                </h1>
+                <p class="text-slate-800 text-base sm:text-lg font-medium mt-2 max-w-3xl">
+                    L'esprit critique n'est pas un don inné, c'est un entraînement constant. Pour déjouer les fausses informations, apprenons d'abord à repérer les raccourcis automatiques de notre cerveau !
+                </p>
+            </div>
+
+            <!-- 3D Interactive Flip Cards -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🃏</span>
+                    <div>
+                        <h2 class="font-display text-2xl font-bold text-popDark">Cartes Rétro : 6 Raccourcis Mentaux à Connaître</h2>
+                        <p class="text-sm text-slate-600">Cliquez sur une carte pour la retourner et découvrir le moyen d'auto-défense associé !</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="h-72 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                        <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-pop rounded-2xl pop-border">
+                            <div class="absolute w-full h-full bg-popYellow p-6 rounded-2xl backface-hidden flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <span class="bg-white text-xs font-bold font-display px-2.5 py-1 rounded-lg pop-border text-popDark">Biais #1</span>
+                                    <h3 class="font-display font-bold text-xl text-popDark">Biais de Confirmation</h3>
+                                    <p class="text-xs sm:text-sm text-slate-900">Privilégier les infos qui confortent ce que l'on pense déjà et ignorer les autres.</p>
+                                </div>
+                                <div class="text-right text-xs font-bold text-popDark font-display">Cliquer pour retourner 🔄</div>
+                            </div>
+                            <div class="absolute w-full h-full bg-popPink text-white p-6 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <h4 class="font-display font-bold text-lg text-popYellow">💡 Auto-défense</h4>
+                                    <p class="text-xs sm:text-sm leading-relaxed">Recherchez activement des arguments contradictoires. Posez-vous la question : "Et si j'avais tort ?"</p>
+                                </div>
+                                <span class="text-[11px] text-pink-100 font-semibold">Exemple : Ne lire que des articles qui nous donnent raison.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="h-72 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                        <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-pop rounded-2xl pop-border">
+                            <div class="absolute w-full h-full bg-popCyan p-6 rounded-2xl backface-hidden flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <span class="bg-white text-xs font-bold font-display px-2.5 py-1 rounded-lg pop-border text-popDark">Biais #2</span>
+                                    <h3 class="font-display font-bold text-xl text-popDark">Effet Dunning-Kruger</h3>
+                                    <p class="text-xs sm:text-sm text-slate-900">Moins on maîtrise un sujet complexe, plus on surestime sa compréhension.</p>
+                                </div>
+                                <div class="text-right text-xs font-bold text-popDark font-display">Cliquer pour retourner 🔄</div>
+                            </div>
+                            <div class="absolute w-full h-full bg-popPurple text-white p-6 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <h4 class="font-display font-bold text-lg text-popYellow">💡 Auto-défense</h4>
+                                    <p class="text-xs sm:text-sm leading-relaxed">Cultivez l'humilité intellectuelle et écoutez le consensus des chercheurs du domaine.</p>
+                                </div>
+                                <span class="text-[11px] text-purple-200 font-semibold">Exemple : Se prétendre expert scientifique après 2 tweets.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="h-72 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                        <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-pop rounded-2xl pop-border">
+                            <div class="absolute w-full h-full bg-emerald-300 p-6 rounded-2xl backface-hidden flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <span class="bg-white text-xs font-bold font-display px-2.5 py-1 rounded-lg pop-border text-popDark">Biais #3</span>
+                                    <h3 class="font-display font-bold text-xl text-popDark">Biais d'Ancrage</h3>
+                                    <p class="text-xs sm:text-sm text-slate-900">Se fier exagérément à la toute première information reçue sur un sujet.</p>
+                                </div>
+                                <div class="text-right text-xs font-bold text-popDark font-display">Cliquer pour retourner 🔄</div>
+                            </div>
+                            <div class="absolute w-full h-full bg-popOrange text-white p-6 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between">
+                                <div class="space-y-2">
+                                    <h4 class="font-display font-bold text-lg text-popYellow">💡 Auto-défense</h4>
+                                    <p class="text-xs sm:text-sm leading-relaxed">Ne restez pas figé sur le premier chiffre ou gros titre aperçu en urgence.</p>
+                                </div>
+                                <span class="text-[11px] text-orange-100 font-semibold">Exemple : Un prix ou chiffre choc annoncé sans vérification.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: QUIZ INFOX ================= -->
+        <section id="tab-quiz" class="tab-content hidden space-y-8">
+            <div class="bg-popPink text-white p-8 rounded-3xl pop-border shadow-pop">
+                <span class="bg-popYellow text-popDark px-3 py-1 rounded-full font-display font-bold text-xs pop-border uppercase tracking-wide">
+                    Testez vos compétences
+                </span>
+                <h1 class="font-display text-3xl sm:text-5xl font-bold mt-3">
+                    🎯 Le Quiz Anti-Infox & Fact-Checking
+                </h1>
+                <p class="text-slate-100 text-base sm:text-lg font-medium mt-2 max-w-2xl">
+                    6 situations concrètes pour vérifier vos réflexes face aux rumeurs, images tronquées, pseudo-sciences et pièges des réseaux sociaux.
+                </p>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-card" class="bg-white p-6 sm:p-10 rounded-3xl pop-border shadow-pop max-w-3xl mx-auto space-y-8">
+                <div class="flex items-center justify-between border-b-2 border-slate-900 pb-4">
+                    <span id="quiz-step-indicator" class="font-display font-bold text-lg text-popPurple">Question 1 / 6</span>
+                    <span id="quiz-score-badge" class="font-display font-bold bg-popYellow text-popDark px-3 py-1 rounded-lg pop-border text-sm">Score: 0</span>
+                </div>
+
+                <div class="space-y-3">
+                    <span id="quiz-category" class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-md pop-border inline-block">Catégorie</span>
+                    <h2 id="quiz-question" class="font-display text-xl sm:text-2xl font-bold text-popDark">Question chargeante...</h2>
+                </div>
+
+                <div id="quiz-options" class="space-y-3"></div>
+
+                <div id="quiz-explanation" class="hidden p-5 rounded-2xl pop-border space-y-2">
+                    <div id="quiz-result-title" class="font-display font-bold text-lg"></div>
+                    <p id="quiz-explanation-text" class="text-xs sm:text-sm leading-relaxed"></p>
+                    <div class="pt-2">
+                        <button id="quiz-next-btn" onclick="nextQuestion()" class="pop-btn bg-popYellow font-display font-bold px-6 py-2.5 rounded-xl shadow-pop hover:bg-yellow-300 text-sm">
+                            Question Suivante ➔
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Results Screen -->
+            <div id="quiz-results" class="hidden bg-white p-8 sm:p-12 rounded-3xl pop-border shadow-pop max-w-2xl mx-auto text-center space-y-6">
+                <div class="w-20 h-20 bg-popYellow rounded-2xl pop-border flex items-center justify-center text-4xl mx-auto shadow-pop">🏆</div>
+                <h2 class="font-display text-3xl font-bold text-popDark">Résultat du Quiz !</h2>
+                <div class="text-4xl sm:text-5xl font-display font-extrabold text-popPurple" id="quiz-final-score">0 / 6</div>
+                <p id="quiz-final-message" class="text-slate-700 font-medium text-sm sm:text-base max-w-lg mx-auto"></p>
+                <div class="pt-4 flex flex-wrap justify-center gap-4">
+                    <button onclick="restartQuiz()" class="pop-btn bg-popYellow font-display font-bold px-6 py-3 rounded-xl shadow-pop hover:bg-yellow-300 text-sm">Recommencer le Quiz 🔄</button>
+                    <button onclick="switchTab('acteurs')" class="pop-btn bg-popCyan text-popDark font-display font-bold px-6 py-3 rounded-xl shadow-pop hover:bg-cyan-300 text-sm">Découvrir les Acteurs 🌟</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: ACTEURS & INSPIRATIONS ================= -->
+        <section id="tab-acteurs" class="tab-content hidden space-y-8">
+            <div class="bg-popPurple text-white p-8 rounded-3xl pop-border shadow-pop">
+                <span class="bg-popYellow text-popDark px-3 py-1 rounded-full font-display font-bold text-xs pop-border uppercase tracking-wide">Figures & Acteurs Clés</span>
+                <h1 class="font-display text-3xl sm:text-5xl font-bold mt-3">🌟 Inspirations & Vulgarisateurs</h1>
+                <p class="text-slate-100 text-base sm:text-lg font-medium mt-2 max-w-3xl">Découvrez les spécialistes, chercheurs, journalistes et associations francophones engagés au quotidien dans l'éducation aux médias, le fact-checking et la culture scientifique.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="acteurs-grid"></div>
+        </section>
+
+        <!-- ================= SECTION 5: RESSOURCES ================= -->
+        <section id="tab-ressources" class="tab-content hidden space-y-8">
+            <div class="bg-popOrange text-white p-8 rounded-3xl pop-border shadow-pop">
+                <span class="bg-white text-popDark px-3 py-1 rounded-full font-display font-bold text-xs pop-border uppercase tracking-wide">Boîte à Outils</span>
+                <h1 class="font-display text-3xl sm:text-5xl font-bold mt-3">📚 Annuaire & Outils de Vérification</h1>
+                <p class="text-slate-100 text-base sm:text-lg font-medium mt-2 max-w-3xl">Sélection d'outils francophones de fact-checking en accès libre et guides pédagogiques.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl pop-border shadow-pop space-y-4">
+                <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div class="relative w-full sm:w-96">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="resource-search" oninput="filterResources()" placeholder="Rechercher un outil, un site..." class="w-full pl-11 pr-4 py-2.5 rounded-xl pop-border text-sm focus:outline-none focus:ring-2 focus:ring-popPurple">
+                    </div>
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto" id="resource-category-filters">
+                        <button onclick="setFilterCategory('all', this)" class="filter-btn px-3 py-1.5 rounded-lg pop-btn text-xs font-display font-bold bg-popYellow">Tous</button>
+                        <button onclick="setFilterCategory('outil', this)" class="filter-btn px-3 py-1.5 rounded-lg pop-btn text-xs font-display font-bold bg-white hover:bg-slate-100">Outils Web</button>
+                        <button onclick="setFilterCategory('media', this)" class="filter-btn px-3 py-1.5 rounded-lg pop-btn text-xs font-display font-bold bg-white hover:bg-slate-100">Fact-Checking</button>
+                        <button onclick="setFilterCategory('pedago', this)" class="filter-btn px-3 py-1.5 rounded-lg pop-btn text-xs font-display font-bold bg-white hover:bg-slate-100">Pédagogie</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="ressources-grid"></div>
+        </section>
+
+        <!-- ================= SECTION 6: QUI SOMMES-NOUS ================= -->
+        <section id="tab-about" class="tab-content hidden space-y-10">
+            <div class="bg-emerald-300 p-8 rounded-3xl pop-border shadow-pop">
+                <span class="bg-white px-3 py-1 rounded-full font-display font-bold text-xs pop-border uppercase tracking-wide">À Propos</span>
+                <h1 class="font-display text-3xl sm:text-5xl font-bold text-popDark mt-3">👥 Qui sommes-nous ?</h1>
+                <p class="text-slate-900 text-base sm:text-lg font-medium mt-2 max-w-3xl">Projet indépendant dédié au développement de l'esprit critique, à la sensibilisation citoyenne et à la culture scientifique.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl pop-border shadow-pop space-y-4">
+                    <div class="w-12 h-12 bg-popYellow rounded-xl pop-border flex items-center justify-center font-display text-2xl font-bold shadow-pop">🎯</div>
+                    <h2 class="font-display text-2xl font-bold text-popDark">Notre Mission</h2>
+                    <p class="text-sm text-slate-700 leading-relaxed">Face au flux continu de fausses nouvelles, **Infox Buster** propose une approche ludique, visuelle et fondée sur la méthode scientifique.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl pop-border shadow-pop space-y-6">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold font-display uppercase tracking-wider text-popPurple">Contact</span>
+                        <h2 class="font-display text-2xl font-bold text-popDark">Une question ou une suggestion ?</h2>
+                    </div>
+                    <form action="https://formspree.io/f/xaenvkrq" method="POST" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold font-display uppercase text-popDark mb-1">Votre Nom / Pseudo</label>
+                            <input type="text" name="name" required placeholder="Ex: Alex" class="w-full px-4 py-2.5 rounded-xl pop-border text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold font-display uppercase text-popDark mb-1">Votre Adresse Email</label>
+                            <input type="email" name="email" required placeholder="alex@exemple.fr" class="w-full px-4 py-2.5 rounded-xl pop-border text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold font-display uppercase text-popDark mb-1">Votre Message</label>
+                            <textarea name="message" rows="4" required placeholder="Votre message..." class="w-full px-4 py-2.5 rounded-xl pop-border text-sm focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full pop-btn bg-popYellow font-display font-bold py-3 rounded-xl shadow-pop hover:bg-yellow-300 text-sm">Envoyer le Message 🚀</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-popDark text-white pop-border border-b-0 border-x-0 mt-16 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-1 text-center md:text-left">
+                <span class="font-display font-bold text-xl text-popYellow">INFOX BUSTER</span>
+                <p class="text-xs text-slate-400">Plateforme ouverte d'auto-défense intellectuelle.</p>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-display font-semibold">
+                <button onclick="switchTab('accueil')" class="hover:text-popYellow">Accueil</button>
+                <span>•</span>
+                <button onclick="switchTab('guide')" class="hover:text-popCyan">Esprit Critique</button>
+                <span>•</span>
+                <button onclick="switchTab('quiz')" class="hover:text-popPink">Quiz</button>
+            </div>
+            <div class="text-xs text-slate-500">© Infox Buster — Libre de diffusion.</div>
+        </div>
+    </footer>
+
+    <script>
+        const acteursData = [
+            { id: 'hugodecrypte', name: 'HugoDécrypte (Hugo Travers)', title: 'Média d\'Actualité & Vulgarisation', desc: `Le média d'information de référence auprès des jeunes générations.`, tag: 'Actualité & Formats', badgeBg: 'bg-popYellow', youtubeUrl: 'https://www.youtube.com/@hugodecrypteactus' },
+            { id: 'moukheiber', name: 'Albert Moukheiber', title: 'Docteur en Neurosciences', desc: `Auteur et conférencier, il explique comment notre cerveau crée des illusions de certitude.`, tag: 'Cognition & Cerveau', badgeBg: 'bg-popCyan', youtubeUrl: 'https://www.youtube.com/results?search_query=Albert+Moukheiber' },
+            { id: 'huchon', name: 'Thomas Huchon', title: 'Journaliste & Réalisateur', desc: `Spécialiste de la désinformation sur le web et de la mécanique des fake news.`, tag: 'Enquête & Réseaux', badgeBg: 'bg-emerald-300', youtubeUrl: 'https://www.youtube.com/results?search_query=Thomas+Huchon' },
+            { id: 'bronner', name: 'Gérald Bronner', title: 'Sociologue', desc: `Étudie la crédulité collective et la façon dont internet transforme nos croyances.`, tag: 'Sociologie Cognitive', badgeBg: 'bg-purple-300', youtubeUrl: 'https://www.youtube.com/results?search_query=G%C3%A9rald+Bronner' },
+            { id: 'fakeoff', name: 'Fake OFF', title: 'Association', desc: `Collectif de journalistes intervenant en milieu scolaire et culturel.`, tag: 'Éducation aux Médias', badgeBg: 'bg-popPink text-white', youtubeUrl: 'https://www.fakeoff.fr/' },
+            { id: 'tranche-en-biais', name: 'La Tronche en Biais', title: 'Zététique & Scepticisme', desc: `L'association pionnière de la zététique en France, axée sur la méthode scientifique.`, tag: 'Zététique & Science', badgeBg: 'bg-popPurple text-white', youtubeUrl: 'https://www.youtube.com/@TroncheEnBiais' }
+        ];
+
+        const ressourcesData = [
+            { title: 'CheckNews (Libération)', category: 'media', type: 'Fact-Checking', desc: `Service de journalisme à la demande sur l'actualité.`, link: 'https://liberation.checknews.fr' },
+            { title: 'AFP Factuel', category: 'media', type: 'Fact-Checking', desc: `Cellule de vérification des faits de l'Agence France-Presse.`, link: 'https://factuel.afp.com' },
+            { title: 'Les Décodeurs (Le Monde)', category: 'media', type: 'Fact-Checking', desc: `Investigation et décryptage des infox.`, link: 'https://www.lemonde.fr/les-decodeurs/' },
+            { title: 'Les Surligneurs', category: 'media', type: 'Fact-Checking', desc: `Fact-checking juridique des déclarations publiques.`, link: 'https://lessurligneurs.eu' },
+            { title: 'Google Reverse Image Search', category: 'outil', type: 'Outil Web', desc: `Retrouvez l'origine exacte d'une photo.`, link: 'https://images.google.com' },
+            { title: 'CLEMI', category: 'pedago', type: 'Pédagogie', desc: `Centre pour l'éducation aux médias et à l'information.`, link: 'https://www.clemi.fr' }
+        ];
+
+        const quizData = [
+            { category: 'Réseaux Sociaux', question: `Un tweet choc affirme : "Alerte ! L'eau du robinet contient un produit dangereux !". Que faire ?`, options: [`Partager immédiatement par précaution.`, `Chercher l'étude citée pour vérifier la source et la méthode.`, `Partager si le tweet a 10k retweets.`, `Commenter avec colère.`], correct: 1, explanation: `Une affirmation spectaculaire exige des preuves solides et traçables.` },
+            { category: 'Biais Cognitifs', question: `Quand on ne lit que des articles en accord avec ses idées, il s'agit de :`, options: [`Biais de confirmation.`, `Effet Dunning-Kruger.`, `Biais d'ancrage.`, `Effet de halo.`], correct: 0, explanation: `Le biais de confirmation pousse à privilégier les données qui confortent nos croyances.` },
+            { category: 'Vérification d\'Image', question: `Quel outil permet de vérifier la date réelle d'apparition d'une photo sur le web ?`, options: [`Antivirus`, `Recherche d'image inversée (Google Images / TinEye)`, `Générateur I.A.`, `Filtre Instagram`], correct: 1, explanation: `La recherche inversée retrouve la première publication d'un cliché.` },
+            { category: 'Méthode Scientifique', question: `Que signifie le "Consensus Scientifique" ?`, options: [`L'avis d'une star à la TV.`, `L'accord de la majorité des chercheurs basé sur des études évaluées par des pairs.`, `Un sondage sur internet.`, `Une décision gouvernementale.`], correct: 1, explanation: `Le consensus repose sur l'accumulation de preuves évaluées par la communauté scientifique.` },
+            { category: 'Fact-Checking', question: `Une vidéo affirme détenir une "vérité censurée par tous les médias". Quel est le piège ?`, options: [`Utiliser l'argument de la censure pour susciter l'émotion et éviter la réflexion.`, `C'est forcément vrai.`, `Trop court pour avoir des erreurs.`, `Aucun piège.`], correct: 0, explanation: `Prétendre à la "censure" est une rhétorique classique pour provoquer un partage compulsif.` },
+            { category: 'Pédagogie', question: `Que faire si l'on a partagé par erreur une fausse nouvelle ?`, options: [`Supprimer sans rien dire.`, `Rectifier publiquement en expliquant l'erreur avec un lien de vérification.`, `Dire que ça aurait pu être vrai.`, `Bloquer les critiques.`], correct: 1, explanation: `Admettre son erreur contribue à assainir l'information.` }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+        let activeResourceCategory = 'all';
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-popYellow', 'bg-popCyan', 'bg-popPink', 'bg-popPurple', 'bg-popOrange', 'bg-emerald-300', 'text-white');
+                btn.classList.add('bg-white');
+            });
+
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                if (tabId === 'accueil') activeNav.classList.add('bg-popYellow');
+                if (tabId === 'guide') activeNav.classList.add('bg-popCyan');
+                if (tabId === 'quiz') activeNav.classList.add('bg-popPink', 'text-white');
+                if (tabId === 'acteurs') activeNav.classList.add('bg-popPurple', 'text-white');
+                if (tabId === 'ressources') activeNav.classList.add('bg-popOrange', 'text-white');
+                if (tabId === 'about') activeNav.classList.add('bg-emerald-300');
+            }
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function flipCard(cardElement) {
+            const inner = cardElement.querySelector('.card-inner');
+            if (inner) inner.classList.toggle('rotate-y-180');
+        }
+
+        // Flux RSS sécurisé avec Timeout de 3 secondes pour ne jamais bloquer la page
+        async function fetchSurligneursLiveFeed() {
+            const container = document.getElementById('surligneurs-live-feed');
+            if (!container) return;
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+                const rssUrl = 'https://www.lessurligneurs.eu/feed/';
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                
+                const response = await fetch(apiUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                const data = await response.json();
+
+                if (data && data.items && data.items.length > 0) {
+                    container.innerHTML = data.items.slice(0, 3).map(article => {
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = article.description || '';
+                        let cleanDesc = tempDiv.textContent || tempDiv.innerText || '';
+                        if (cleanDesc.length > 100) cleanDesc = cleanDesc.substring(0, 100) + '...';
+
+                        let pubDate = new Date(article.pubDate);
+                        let dateFormatted = !isNaN(pubDate) ? pubDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) : 'Récemment';
+
+                        return `
+                            <div class="bg-amber-50/60 p-5 rounded-2xl pop-border flex flex-col justify-between space-y-3 hover:-translate-y-1 transition-transform">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="bg-popYellow text-popDark text-[10px] font-bold font-display px-2 py-0.5 rounded pop-border uppercase">Les Surligneurs</span>
+                                        <span class="text-[11px] font-semibold text-slate-500">${dateFormatted}</span>
+                                    </div>
+                                    <h3 class="font-display font-bold text-base text-popDark leading-snug">${article.title}</h3>
+                                    <p class="text-xs text-slate-700 leading-relaxed">${cleanDesc}</p>
+                                </div>
+                                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="pop-btn bg-white text-popDark font-display font-bold text-xs py-2 px-3 rounded-xl shadow-pop hover:bg-popYellow flex items-center justify-between">
+                                    <span>Lire l'article</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                                </a>
+                            </div>
+                        `;
+                    }).join('');
+                    return;
+                }
+                throw new Error('Format invalide');
+            } catch (err) {
+                // Fallback immédiat si le réseau ou l'API externe bloque
+                container.innerHTML = `
+                    <div class="col-span-full bg-amber-50 p-6 rounded-2xl pop-border flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="space-y-1 text-center sm:text-left">
+                            <span class="font-display font-bold text-popDark text-base">⚖️ Les Surligneurs — Fact-checking juridique quotidien</span>
+                            <p class="text-xs text-slate-600">Accédez directement à l'ensemble des décryptages et vérifications sur leur site officiel.</p>
+                        </div>
+                        <a href="https://lessurligneurs.eu" target="_blank" rel="noopener noreferrer" class="pop-btn bg-popYellow font-display font-bold text-popDark text-xs py-3 px-5 rounded-xl shadow-pop whitespace-nowrap hover:bg-yellow-300">
+                            Accéder au site officiel ➔
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        function renderActeurs() {
+            const grid = document.getElementById('acteurs-grid');
+            const homeFeatured = document.getElementById('home-featured-acteurs');
+            if (!grid) return;
+
+            let gridHtml = '';
+            let featuredHtml = '';
+
+            acteursData.forEach((item, index) => {
+                const cardContent = `
+                    <div class="bg-white p-6 rounded-2xl pop-border shadow-pop flex flex-col justify-between space-y-4 hover:-translate-y-1 transition-transform h-full">
+                        <div class="space-y-3">
+                            <span class="${item.badgeBg} text-popDark px-2.5 py-1 rounded-lg font-display font-bold text-xs pop-border inline-block">${item.tag}</span>
+                            <h3 class="font-display font-bold text-xl text-popDark">${item.name}</h3>
+                            <span class="block text-xs font-bold text-popPurple uppercase tracking-wide">${item.title}</span>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${item.desc}</p>
+                        </div>
+                        <a href="${item.youtubeUrl}" target="_blank" rel="noopener noreferrer" class="pop-btn bg-red-500 text-white font-display font-bold text-xs py-2.5 px-4 rounded-xl shadow-pop hover:bg-red-600 flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-youtube text-base"></i>
+                            <span>Voir la ressource</span>
+                        </a>
+                    </div>
+                `;
+                gridHtml += cardContent;
+                if (index < 3) featuredHtml += cardContent;
+            });
+
+            grid.innerHTML = gridHtml;
+            if (homeFeatured) homeFeatured.innerHTML = featuredHtml;
+        }
+
+        function renderRessources() {
+            const grid = document.getElementById('ressources-grid');
+            const searchVal = document.getElementById('resource-search')?.value.toLowerCase() || '';
+            if (!grid) return;
+
+            const filtered = ressourcesData.filter(item => {
+                const matchesCat = activeResourceCategory === 'all' || item.category === activeResourceCategory;
+                const matchesSearch = item.title.toLowerCase().includes(searchVal) || item.desc.toLowerCase().includes(searchVal);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-500 font-display font-bold p-8">Aucune ressource ne correspond à votre recherche.</p>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-white p-6 rounded-2xl pop-border shadow-pop flex flex-col justify-between space-y-4">
+                    <div class="space-y-2">
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold font-display px-2.5 py-1 rounded-md pop-border inline-block">${item.type}</span>
+                        <h3 class="font-display font-bold text-xl text-popDark">${item.title}</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${item.desc}</p>
+                    </div>
+                    <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="pop-btn bg-popYellow text-popDark font-display font-bold text-xs py-2.5 px-4 rounded-xl shadow-pop hover:bg-yellow-300 flex items-center justify-center gap-2">
+                        <span>Accéder au site</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function setFilterCategory(cat, btnElement) {
+            activeResourceCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-popYellow');
+                btn.classList.add('bg-white');
+            });
+            if (btnElement) {
+                btnElement.classList.remove('bg-white');
+                btnElement.classList.add('bg-popYellow');
+            }
+            renderRessources();
+        }
+
+        function filterResources() {
+            renderRessources();
+        }
+
+        function loadQuizQuestion() {
+            quizAnswered = false;
+            const current = quizData[currentQuizIndex];
+
+            document.getElementById('quiz-step-indicator').innerText = `Question ${currentQuizIndex + 1} / ${quizData.length}`;
+            document.getElementById('quiz-score-badge').innerText = `Score: ${quizScore}`;
+            document.getElementById('quiz-category').innerText = current.category;
+            document.getElementById('quiz-question').innerText = current.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = current.options.map((opt, idx) => `
+                <button onclick="selectQuizOption(${idx})" class="quiz-opt-btn w-full text-left p-4 rounded-xl pop-btn bg-white hover:bg-purple-50 font-semibold text-sm sm:text-base text-popDark transition-colors">
+                    <span class="font-display font-bold text-popPurple mr-2">${String.fromCharCode(65 + idx)}.</span> ${opt}
+                </button>
+            `).join('');
+
+            document.getElementById('quiz-explanation').classList.add('hidden');
+        }
+
+        function selectQuizOption(selectedIdx) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const current = quizData[currentQuizIndex];
+            const isCorrect = selectedIdx === current.correct;
+            const buttons = document.querySelectorAll('.quiz-opt-btn');
+
+            buttons.forEach((btn, idx) => {
+                if (idx === current.correct) {
+                    btn.classList.remove('bg-white');
+                    btn.classList.add('bg-emerald-300', 'text-slate-900');
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.classList.remove('bg-white');
+                    btn.classList.add('bg-popPink', 'text-white');
+                }
+                btn.disabled = true;
+            });
+
+            if (isCorrect) quizScore++;
+            document.getElementById('quiz-score-badge').innerText = `Score: ${quizScore}`;
+
+            const expBox = document.getElementById('quiz-explanation');
+            const expTitle = document.getElementById('quiz-result-title');
+            const expText = document.getElementById('quiz-explanation-text');
+
+            expBox.classList.remove('hidden', 'bg-emerald-100', 'bg-rose-100');
+            if (isCorrect) {
+                expBox.classList.add('bg-emerald-100');
+                expTitle.innerHTML = `<span class="text-emerald-800">✅ Bravo ! Excellente réponse.</span>`;
+            } else {
+                expBox.classList.add('bg-rose-100');
+                expTitle.innerHTML = `<span class="text-rose-800">❌ Oups ! Ce n'est pas la bonne option.</span>`;
+            }
+            expText.innerText = current.explanation;
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-card').classList.add('hidden');
+            const resultsScreen = document.getElementById('quiz-results');
+            resultsScreen.classList.remove('hidden');
+
+            document.getElementById('quiz-final-score').innerText = `${quizScore} / ${quizData.length}`;
+
+            let msg = '';
+            if (quizScore === quizData.length) {
+                msg = '🎉 Sans-faute impressionnant ! Votre esprit critique est au sommet.';
+            } else if (quizScore >= 4) {
+                msg = '👍 Très bon score ! Vous déjouez la majorité des pièges.';
+            } else {
+                msg = '💡 L\'esprit critique est un entraînement. Explorez nos fiches pour vous perfectionner.';
+            }
+            document.getElementById('quiz-final-message').innerText = msg;
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-card').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderActeurs();
+            renderRessources();
+            loadQuizQuestion();
+            fetchSurligneursLiveFeed();
+        });
+    </script>
+</body>
+</html>
